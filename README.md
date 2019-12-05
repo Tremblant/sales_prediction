@@ -1,7 +1,8 @@
-Loan Prediction
+Sales Prediction(Regression Problem)
 -----------------------
 
-Predict whether or not loans acquired by Fannie Mae will go into foreclosure.  Fannie Mae acquires loans from other lenders as a way of inducing them to lend more.  Fannie Mae releases data on the loans it has acquired and their performance afterwards [here](http://www.fanniemae.com/portal/funding-the-market/data/loan-performance-data.html).
+Building a predictive model and find out the sales of each product at a particular store.
+The model will try to understand the properties of products and stores which play a key role in increasing sales [here](https://datahack.analyticsvidhya.com/contest/practice-problem-big-mart-sales-iii/).
 
 Installation
 ----------------------
@@ -9,18 +10,15 @@ Installation
 ### Download the data
 
 * Clone this repo to your computer.
-* Get into the folder using `cd loan-prediction`.
+* Get into the folder using `cd sales_prediction`.
 * Run `mkdir data`.
 * Switch into the `data` directory using `cd data`.
-* Download the data files from Fannie Mae into the `data` directory.  
-    * You can find the data [here](http://www.fanniemae.com/portal/funding-the-market/data/loan-performance-data.html).
-    * You'll need to register with Fannie Mae to download the data.
-    * It's recommended to download all the data from 2012 Q1 to present.
-* Extract all of the `.zip` files you downloaded.
-    * On OSX, you can run `find ./ -name \*.zip -exec unzip {} \;`.
-    * At the end, you should have a bunch of text files called `Acquisition_YQX.txt`, and `Performance_YQX.txt`, where `Y` is a year, and `X` is a number from `1` to `4`.
-* Remove all the zip files by running `rm *.zip`.
-* Switch back into the `loan-prediction` directory using `cd ..`.
+* Run  `mkdir raw  processed`.
+* Switch into `raw` directory using `cd raw` and download the data files from Analytics Vidhya into the `raw` directory.  
+    * You can find the data [here](https://datahack.analyticsvidhya.com/contest/practice-problem-big-mart-sales-iii/).
+    * You'll need to register with Analytics Vidhya to download the data.
+    * Download train and test files.
+* Switch back into the `sales_prediction` directory using `cd ..`.
 
 ### Install the requirements
  
@@ -31,25 +29,22 @@ Installation
 Usage
 -----------------------
 
-* Run `mkdir processed` to create a directory for our processed datasets.
-* Run `python assemble.py` to combine the `Acquisition` and `Performance` datasets.
-    * This will create `Acquisition.txt` and `Performance.txt` in the `processed` folder.
-* Run `python annotate.py`.
-    * This will create training data from `Acquisition.txt` and `Performance.txt`.
-    * It will add a file called `train.csv` to the `processed` folder.
-* Run `python predict.py`.
-    * This will run cross validation across the training set, and print the accuracy score.
-    
+* Run `mkdir processed` inside `data` directory to create a directory for our processed datasets.
+* Run `1-Data_Prep.ipynb`.
+    * This performs data preparation, where we look at the structure of the data, missing values and how different variables relate to the target variable. Once we are done with data preparation we move it to `processed` folder.
+* Run `EDA's`.
+    * These consists of different modeling algorithms to assist in prediction.
+        
 Model Building
 -----------------------
 
 In model building we will use simpler linear models and then move over to more complex models like RandomForest and XGBoost.
 
-* Linear Regression
-* Lasso Regression
-* Ridge Regression
-* RandomForest
-* XGBoost
+* Linear Regression `2-EDA #1`, `2-EDA #2`
+* Lasso Regression  `2-EDA #3`
+* Ridge Regression  `2-EDA #3`
+* RandomForest      `2-EDA #4`
+* XGBoost           `2-EDA #5`
 
 ### Evaluation Metrics for Regression
 
@@ -58,23 +53,3 @@ The process of model building is not complete without evaluation of model’s pe
 * Mean Absolute Error(MAE)
 * Mean Squared Error(MSE)
 * Root Mean Squared Error(RMSE)
-
-
-
-Extending this
--------------------------
-
-If you want to extend this work, here are a few places to start:
-
-* Generate more features in `annotate.py`.
-* Switch algorithms in `predict.py`.
-* Add in a way to make predictions on future data.
-* Try seeing if you can predict if a bank should have issued the loan.
-    * Remove any columns from `train` that the bank wouldn't have known at the time of issuing the loan.
-        * Some columns are known when Fannie Mae bought the loan, but not before
-    * Make predictions.
-* Explore seeing if you can predict columns other than `foreclosure_status`.
-    * Can you predict how much the property will be worth at sale time?
-* Explore the nuances between performance updates.
-    * Can you predict how many times the borrower will be late on payments?
-    * Can you map out the typical loan lifecycle?
