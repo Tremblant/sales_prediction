@@ -1,0 +1,8 @@
+pandas
+matplotlib
+scikit-learn
+numpy
+ipython
+scipy
+xgboost
+sklearn-pandas
